@@ -7,8 +7,8 @@
 
 import UIKit
 
-class ViewController: UIViewController {
-
+class DetailViewController: UIViewController {
+    
     @IBOutlet weak var imageview: UIImageView!
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var userImageview: UIImageView!
@@ -19,14 +19,10 @@ class ViewController: UIViewController {
     @IBOutlet weak var heightLabel: UILabel!
     @IBOutlet weak var likeCheck: UIButton!
     
+    var item: ItemInfo?
+    
     var currentImageIndex = 0
-    let images = [
-        "hattefjall_1",
-        "hattefjall_2",
-        "hattefjall_3",
-        "hattefjall_4",
-        "hattefjall_5"
-    ]
+    var images = [String]()
     
     @IBAction func likeChanged(_ sender: Any) {
         likeCheck.isSelected = !likeCheck.isSelected
@@ -36,13 +32,16 @@ class ViewController: UIViewController {
     @IBOutlet weak var leftButton: UIButton!
     @IBOutlet weak var rightButton: UIButton!
     
+    // 상세이미지가 있을경우
     func showImage(index: Int) {
+        
         let imageName = images[index]
         imageview.image = UIImage(named: imageName)
         
         // 좌/우 이미지 이동이 불가능한 상태면 버튼 상태를 disabled로
         leftButton.isEnabled = index > 0
         rightButton.isEnabled = index < images.count - 1
+        
     }
     
     @IBAction func viewLeftChange(_ sender: Any) {
@@ -76,22 +75,38 @@ class ViewController: UIViewController {
         datePicker.isHidden = true
     }
     
+    // 옵셔널 바인딩
     override func viewWillAppear(_ animated: Bool) {
-        imageview.image = UIImage(named: "hattefjall_1")
+        if let item = item{
+            titleLabel.text = item.itemName
+            userLabel.text = item.user.name
+            if let imageName = item.user.image{
+                userImageview.image = UIImage.init(named: imageName)
+            }
+            priceLabel.text = String(item.price)
+            images = item.detailImage ?? []
+            
+            // 상세이미지 있을 경우
+            if item.detailImage != nil{
+                showImage(index: 0)
+            }
+            // 상세이미지가 없을 경우
+            if item.detailImage == nil {
+                imageview.image = UIImage(named: item.itemThumbnail)
+                rightButton.isEnabled = false
+            }
+            
+            if let size = item.size{
+                depthLabel.text = "\(size.d)cm"
+                widthLabel.text = "\(size.w)cm"
+                heightLabel.text = "\(size.h)cm"
+            }
+            
+        }
         
-        titleLabel.text = "의자"
-        userImageview.image = UIImage.init(named: "지니")
-        userLabel.text = "지니"
+        func didReceiveMemoryWarning() {
+            super.didReceiveMemoryWarning()
+        }
         
-        priceLabel.text = "30,000"
-        depthLabel.text = "40cm"
-        widthLabel.text = "50cm"
-        heightLabel.text = "75cm"
     }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-    }
-
 }
-
