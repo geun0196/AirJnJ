@@ -25,7 +25,17 @@ class DetailViewController: UIViewController {
     var images = [String]()
     
     @IBAction func likeChanged(_ sender: Any) {
-        likeCheck.isSelected = !likeCheck.isSelected
+        if let item = self.item {
+            // 좋아요 목록에서 제거/좋아요 목록에 추가
+            if Liked.shared.isLiked(item) {
+                Liked.shared.remove(item)
+                likeCheck.isSelected = false
+            }
+            else {
+                Liked.shared.add(item)
+                likeCheck.isSelected = true
+            }
+        }
     }
     
     //UiView 버튼 조작
@@ -56,15 +66,19 @@ class DetailViewController: UIViewController {
     
     @IBOutlet weak var dateLabel: UILabel!
     @IBOutlet weak var datePicker: UIDatePicker!
+    
     let dateFormatter = DateFormatter()
+    
     @IBAction func dateChoose(_ sender: Any) {
         dateFormatter.dateFormat = "yy년-MM월-dd일"
         let dateStr = dateFormatter.string(from: datePicker.date)
         dateLabel.text = dateStr
     }
+    
     @IBAction func openCalenderButton(_ sender: Any) {
         datePicker.isHidden = false
     }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // 초기 이미지는 첫번째 이미지이므로 왼쪽 버튼은 disabled로
@@ -73,6 +87,13 @@ class DetailViewController: UIViewController {
         
         // 초기에 달력 숨김
         datePicker.isHidden = true
+        
+        // 이미지 뷰 하단 구분선 그리기
+        let borderLayer = CALayer()
+        borderLayer.backgroundColor = UIColor.lightGray.cgColor
+        borderLayer.frame = CGRect(x: 0, y: self.imageview.frame.height - 0.5, width: self.imageview.frame.width, height: 0.5)
+        self.imageview.layer.addSublayer(borderLayer)
+        
     }
     
     // 옵셔널 바인딩
@@ -101,6 +122,9 @@ class DetailViewController: UIViewController {
                 widthLabel.text = "\(size.w)cm"
                 heightLabel.text = "\(size.h)cm"
             }
+            
+            // 좋아요가 눌러졌는지 좋아요 버튼에 반영
+            likeCheck.isSelected = Liked.shared.isLiked(item)
             
         }
         

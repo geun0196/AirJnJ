@@ -37,3 +37,36 @@ class User {
     static let goyangci = User(name: "고양씨", image:"goyangc")
     static let popo = User(name: "뽀뽀", image:"popo")
 }
+
+//구조체로 좋아요 다루기
+struct Liked {
+    //싱글톤 패턴 (객체의 인스턴스를 최초 1회만 생성)
+    static var shared = Liked()
+    
+    var saves = [ItemInfo]()
+    
+    func isLiked(_ item: ItemInfo) -> Bool {
+        for one in saves {
+            // 제품 이름으로 같다고 비교
+            if one.itemName == item.itemName {
+                return true
+            }
+        }
+        return false
+    }
+    
+    mutating func add(_ item: ItemInfo) {
+        self.saves.append(item)
+    }
+    
+    mutating func remove(_ item: ItemInfo) {
+        for (index, one) in saves.enumerated() {
+            // 제품 이름으로 같다고 비교
+            if one.itemName == item.itemName {
+                saves.remove(at: index)
+                return
+            }
+        }
+    }
+
+}
