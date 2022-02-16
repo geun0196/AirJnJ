@@ -37,9 +37,7 @@ class LikedTableViewController: UITableViewController {
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "likeCell", for: indexPath)
-        
         let item = Liked.shared.saves[indexPath.row]
-        
         cell.textLabel?.text = item.itemName
         cell.imageView?.image = UIImage(named: item.itemThumbnail)
 
