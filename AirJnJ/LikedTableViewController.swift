@@ -44,4 +44,13 @@ class LikedTableViewController: UITableViewController {
         return cell
     }
     
+    // DetailVC 전환
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if let cell = sender as? UITableViewCell, let indexPath = tableView.indexPath(for: cell){
+            let selected = Liked.shared.saves[indexPath.row]
+            let detailVC = segue.destination as? DetailViewController
+            detailVC?.item = selected
+        }
+    }
+    
 }
