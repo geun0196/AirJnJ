@@ -355,6 +355,9 @@
                                         </label>
                                     </subviews>
                                 </tableViewCellContentView>
+                                <connections>
+                                    <segue destination="BYZ-38-t0r" kind="show" id="Un0-tO-eaF"/>
+                                </connections>
                             </tableViewCell>
                         </prototypes>
                         <connections>
@@ -399,6 +402,7 @@
                 <tabBarController automaticallyAdjustsScrollViewInsets="NO" id="Via-HP-ogx" sceneMemberID="viewController">
                     <toolbarItems/>
                     <tabBar key="tabBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="NTD-St-R5t">
+                        <rect key="frame" x="0.0" y="0.0" width="1000" height="1000"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     </tabBar>
@@ -432,6 +436,9 @@
             <point key="canvasLocation" x="1038" y="788"/>
         </scene>
     </scenes>
+    <inferredMetricsTieBreakers>
+        <segue reference="Un0-tO-eaF"/>
+    </inferredMetricsTieBreakers>
     <resources>
         <image name="btn_heart_filled" width="44" height="44"/>
         <image name="btn_heart_outline" width="44" height="44"/>
